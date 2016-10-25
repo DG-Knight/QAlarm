@@ -2,18 +2,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.ict.dg_knight.qalarm.MainActivity">
-    <item
-        android:id="@+id/action_settings"
-        android:icon="@drawable/ic_settings_white_48dp"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="always"
-        tools:ignore="AlwaysShowAction" />
+    <!--<item-->
+        <!--android:id="@+id/action_settings"-->
+        <!--android:icon="@drawable/ic_settings_white_48dp"-->
+        <!--android:orderInCategory="100"-->
+        <!--android:title="@string/action_settings"-->
+        <!--app:showAsAction="always"-->
+        <!--tools:ignore="AlwaysShowAction" />-->
     <item
         android:id="@+id/action_history"
         android:orderInCategory="100"
+        android:icon="@drawable/ic_history_white_48dp"
         android:title="@string/ation_history"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_about"
         android:orderInCategory="100"

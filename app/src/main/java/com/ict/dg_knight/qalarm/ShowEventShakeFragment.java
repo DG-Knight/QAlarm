@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -39,6 +40,7 @@ public class ShowEventShakeFragment extends Fragment {
     private Sensor mAccelerometer;
     private ShakeDetector mShakeDetector;
     private TextView shakeit;
+
     final static int RQS_1 = 1;
     DbHelper mHelper;
     SQLiteDatabase mDb;
@@ -56,6 +58,7 @@ public class ShowEventShakeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_show_event_shake, container, false);
+
         shakeit = (TextView)rootView.findViewById(R.id.shakeIt);
         // ShakeDetector initialization
         mSensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
@@ -66,24 +69,91 @@ public class ShowEventShakeFragment extends Fragment {
 
             @Override
             public void onShake(int count) {
-				/*
-				 * The following method, "handleShakeEvent(count):" is a stub //
-				 * method you would use to setup whatever you want done once the
-				 * device has been shook.
-				 */
-                if (count==20){
+                SharedPreferences sharedPref;
+                SharedPreferences.Editor editor;
+                sharedPref =getActivity().getSharedPreferences("numShake",Context.MODE_PRIVATE);
+                int num1 = 20,num2 = 25,num3 = 30,num4 = 35,num5= 40;
+                final int a;
+                a = sharedPref.getInt("numShake",-1);//get วิทีเลือกนาฬิกาจาก sharedPref
+                Log.i("DataOnSharedNumShake :",String.valueOf(a));
+              if (a == 0 && a == -1){
+                if (count==num1){
                     Toast.makeText(getActivity(), "เสร็จสิ้นภารกิจ", Toast.LENGTH_SHORT).show();
                     cancelAlarm();
                     saveTime();
                     getActivity().finish();//ปิด fragment พร้อม actitvity
                 }
                 else {
+
                     RoundCornerProgressBar progress1 = (RoundCornerProgressBar)rootView.findViewById(R.id.progess_1);
                     progress1.setProgressColor(Color.parseColor("#38ffd0"));
                     progress1.setProgressBackgroundColor(Color.parseColor("#f2f2f2"));
-                    progress1.setMax(20);
+                    progress1.setMax(num1);
                     progress1.setProgress(count);
                 }
+              }else if (a == 1){
+                  if (count==num2){
+                      Toast.makeText(getActivity(), "เสร็จสิ้นภารกิจ", Toast.LENGTH_SHORT).show();
+                      cancelAlarm();
+                      saveTime();
+                      getActivity().finish();//ปิด fragment พร้อม actitvity
+                  }
+                  else {
+
+                      RoundCornerProgressBar progress1 = (RoundCornerProgressBar)rootView.findViewById(R.id.progess_1);
+                      progress1.setProgressColor(Color.parseColor("#38ffd0"));
+                      progress1.setProgressBackgroundColor(Color.parseColor("#f2f2f2"));
+                      progress1.setMax(num2);
+                      progress1.setProgress(count);
+                  }
+
+              }else if (a == 2){
+                  if (count==num3){
+                      Toast.makeText(getActivity(), "เสร็จสิ้นภารกิจ", Toast.LENGTH_SHORT).show();
+                      cancelAlarm();
+                      saveTime();
+                      getActivity().finish();//ปิด fragment พร้อม actitvity
+                  }
+                  else {
+
+                      RoundCornerProgressBar progress1 = (RoundCornerProgressBar)rootView.findViewById(R.id.progess_1);
+                      progress1.setProgressColor(Color.parseColor("#38ffd0"));
+                      progress1.setProgressBackgroundColor(Color.parseColor("#f2f2f2"));
+                      progress1.setMax(num3);
+                      progress1.setProgress(count);
+                  }
+
+              }else if (a == 3){
+                  if (count==num4){
+                      Toast.makeText(getActivity(), "เสร็จสิ้นภารกิจ", Toast.LENGTH_SHORT).show();
+                      cancelAlarm();
+                      saveTime();
+                      getActivity().finish();//ปิด fragment พร้อม actitvity
+                  }
+                  else {
+
+                      RoundCornerProgressBar progress1 = (RoundCornerProgressBar)rootView.findViewById(R.id.progess_1);
+                      progress1.setProgressColor(Color.parseColor("#38ffd0"));
+                      progress1.setProgressBackgroundColor(Color.parseColor("#f2f2f2"));
+                      progress1.setMax(num4);
+                      progress1.setProgress(count);
+                  }
+
+              }else{
+                  if (count==num5){
+                      Toast.makeText(getActivity(), "เสร็จสิ้นภารกิจ", Toast.LENGTH_SHORT).show();
+                      cancelAlarm();
+                      saveTime();
+                      getActivity().finish();//ปิด fragment พร้อม actitvity
+                  }
+                  else {
+                      RoundCornerProgressBar progress1 = (RoundCornerProgressBar)rootView.findViewById(R.id.progess_1);
+                      progress1.setProgressColor(Color.parseColor("#38ffd0"));
+                      progress1.setProgressBackgroundColor(Color.parseColor("#f2f2f2"));
+                      progress1.setMax(num5);
+                      progress1.setProgress(count);
+                  }
+              }
             }
 
 

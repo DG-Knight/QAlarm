@@ -17,9 +17,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.sleepbot.datetimepicker.time.RadialPickerLayout;
 import com.sleepbot.datetimepicker.time.TimePickerDialog;
@@ -37,14 +35,21 @@ import static com.ict.dg_knight.qalarm.DbHelper.WEEK_DAY;
 
 public class SetAlarm extends AppCompatActivity {
     public static final String MY_PREFS = "my_prefs";
+    public static final String NUM_SHAKE = "my_num_shake";
     SharedPreferences sharedPref;
     SharedPreferences.Editor editor;
     AlarmManager alarmManager;
     PendingIntent pendingIntent;
     private TimePickerDialog mTimePicker;
+
     private String  mSelected; //ตัวแปรที่รับค่าว่าเลือกอะไร
     private int nSelected;
     String oSelected = "selected";
+
+    private String  uSelected;//จำนวนเขย่า
+    private int sSelected;//ตำแหน่งจำนวนเย่า
+    String tSelected = "numShake";
+
     final static int RQS_1 = 1;
     Calendar cal = Calendar.getInstance();
     Calendar calSet = (Calendar) cal.clone();//ตัวแปรปลุกพรุ้งนี้
@@ -65,9 +70,9 @@ public class SetAlarm extends AppCompatActivity {
 
         int [] resId ={R.drawable.alarm_clock2,
                         R.drawable.musical_note,
-                        R.drawable.method};
-        String [] strTitle ={"เวลา","ริงโทน","วิธีปิดเสียงนาฬิกา"};
-        String [] strSub ={"ตั้งเวลาปลุก","เลือกเสียงปลุก","เลือกวิธีปิด"};
+                        R.drawable.method,R.drawable.shake_one};
+        String [] strTitle ={"เวลา","ริงโทน","วิธีปิดเสียงนาฬิกา","จำนวนเขย่า"};
+        String [] strSub ={"ตั้งเวลาปลุก","เลือกเสียงปลุก","เลือกวิธีปิด","ตั้งจำนวนครั้งการเขย่า"};
 
         ListSetAdapter listSetAdapter = new ListSetAdapter(getApplicationContext(),resId, strTitle,strSub);
         ListView listView = (ListView)findViewById(R.id.listView_set);
@@ -85,50 +90,14 @@ public class SetAlarm extends AppCompatActivity {
                             ,false); // ให้สั่นหรือไม่?
                     mTimePicker.show(getSupportFragmentManager(),"timePicker");
 
-                }else if (position==1){
+                }else if (position == 1){
                     startRingTonePicker();
                     return;
 //                    Toast.makeText(SetAlarm.this, "ริงโทน", Toast.LENGTH_SHORT).show();
+                }else if (position == 2){
+                    chooseDlgCloseAlarm();//ฟังชันเลือกจำนวนเขย่า
                 }else{
-                    final String[] items = { getString(R.string.basic)
-                            ,getString(R.string.mt_picture)
-                            ,getString(R.string.mt_sharke)
-                            ,getString(R.string.mt_playGame) };
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(SetAlarm.this);
-                    builder.setTitle(R.string.method_alarm);
-                    builder.setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-//                            Log.i("Choose",String.valueOf(which));
-                            nSelected = which;//what Choose items
-                            mSelected = items[which];
-
-                        }
-                    });
-                    builder.setPositiveButton(R.string.dlgOk, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // ส่วนนี้สำหรับเซฟค่าลง database หรือ SharedPreferences.
-                            sharedPref = getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE);
-                            editor = sharedPref.edit();
-                            editor.clear();// clear ข้อมูลใน sharedPref ก่อนเพิ่มใหม่
-                            editor.commit();
-                            int a = sharedPref.getInt("selected",-1);
-                            Log.i("CLEAR DATA :",String.valueOf(a));
-                            editor.putInt(oSelected,nSelected);
-                            editor.commit();
-                            Log.i("Input Value :",mSelected+":"+String.valueOf(nSelected));
-//                            int user_id = sharedPref.getInt(getString(R.string.basic), -1);//อ่านข้อมูลใน sharePef จะได้ค่า value มา
-//                            Log.i("MySetting",String.valueOf(user_id));
-
-                            Toast.makeText(SetAlarm.this, "คุณเลือก"+mSelected, Toast.LENGTH_SHORT).show();
-                            dialog.dismiss();
-                        }
-                    });
-                    builder.setNegativeButton(R.string.dlgCancel,null);
-                    builder.create();
-                    builder.show();
+                    chooseNumShake();
                 }
             }
         });
@@ -164,7 +133,6 @@ public class SetAlarm extends AppCompatActivity {
                                                         +":"+calSet.get(Calendar.MINUTE)
                                                         +"นาที\t|"+"วันที่ : "
                                                         +calSet.get(Calendar.DAY_OF_MONTH)));
-
             }
             int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);//ตรวจสอบว่าเป็นวันไหนของสัปดาห์ เช่นวันจันทร์ เป็นวันที่ 2 ของสัปดาห์
             String weekday = new DateFormatSymbols().getShortWeekdays()[dayOfWeek]; //แปลงวันเป็นตัวย่อ เช่น วันจันทร์ ย่อเป็น จ.
@@ -200,12 +168,102 @@ public class SetAlarm extends AppCompatActivity {
         values.put(TIME_MINUTE,mMinute); //set data
         mDb.insert(TABLE_TODAY,null,values);
     }
-    private void startRingTonePicker(){
+    public void startRingTonePicker(){
         Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
+        startActivityForResult(intent, RQS_RINGTONEPICKER);
         Uri uri = intent.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
-    }
+        Ringtone ringtone = RingtoneManager.getRingtone(this, uri);
+        String title = ringtone.getTitle(this);
 
-//        startActivityForResult(intent, RQS_RINGTONEPICKER);}
+//http://stackoverflow.com/questions/19187834/how-to-get-ringtone-name-in-android
+//       Toast.makeText(this,"Ring Tone Name"+ title, Toast.LENGTH_SHORT).show();
+        Log.i("Ring Tone Name",title);
+    }
+    private void chooseDlgCloseAlarm(){
+
+        final String[] items = { getString(R.string.basic),getString(R.string.mt_picture),getString(R.string.mt_sharke),getString(R.string.mt_playGame) };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(SetAlarm.this);
+        builder.setTitle(R.string.method_alarm);
+        builder.setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+//                            Log.i("Choose",String.valueOf(which));
+                nSelected = which;//what Choose items
+                mSelected = items[which];
+            }
+        });
+        builder.setPositiveButton(R.string.dlgOk, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // ส่วนนี้สำหรับเซฟค่าลง database หรือ SharedPreferences.
+                sharedPref = getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE);
+                editor = sharedPref.edit();
+                editor.clear();// clear ข้อมูลใน sharedPref ก่อนเพิ่มใหม่
+                editor.commit();
+                int a = sharedPref.getInt("selected",-1);
+                Log.i("CLEAR DATA :",String.valueOf(a));
+                editor.putInt(oSelected,nSelected);
+                editor.commit();
+                Log.i("Input Value :",mSelected+":"+String.valueOf(nSelected));
+//                            int user_id = sharedPref.getInt(getString(R.string.basic), -1);//อ่านข้อมูลใน sharePef จะได้ค่า value มา
+//                            Log.i("MySetting",String.valueOf(user_id));
+
+                Toast.makeText(SetAlarm.this, "คุณเลือก"+mSelected, Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton(R.string.dlgCancel,null);
+        builder.create();
+        builder.show();
+    }
+    private void chooseNumShake(){
+
+        sharedPref =getSharedPreferences("my_prefs",Context.MODE_PRIVATE);
+        final int a;
+        a = sharedPref.getInt("selected",-1);//get วิทีเลือกนาฬิกาจาก sharedPref
+        Log.e("Choose Num Shake:","ตั้งจัำนวนเขย่า");
+        if (a==2){
+            final String [] num = {"20 (พื้นฐาน)","25","30","35","40"};
+            AlertDialog.Builder numDlg = new AlertDialog.Builder(SetAlarm.this);
+            numDlg.setTitle(R.string.dlgChooseNumShake);
+            numDlg.setSingleChoiceItems(num, 0, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+//                            Log.i("Choose",String.valueOf(which));
+                    sSelected = which;//ตำแหน่งจำนวนเขย่า
+                    uSelected = num[which];//จำนวนเขย่า
+                }
+            });
+
+            numDlg.setPositiveButton(R.string.dlgOk, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // ส่วนนี้สำหรับเซฟค่าลง database หรือ SharedPreferences.
+                    sharedPref = getSharedPreferences(NUM_SHAKE, Context.MODE_PRIVATE);
+                    editor = sharedPref.edit();
+                    editor.clear();// clear ข้อมูลใน sharedPref ก่อนเพิ่มใหม่
+                    editor.commit();
+                    int a = sharedPref.getInt("numShake",-1);
+                    Log.i("CLEAR DATA :",String.valueOf(a));
+                    editor.putInt(tSelected,sSelected);
+                    editor.commit();
+                    Log.i("Input Value :",uSelected+":"+String.valueOf(sSelected));
+//              int user_id = sharedPref.getInt(getString(R.string.basic), -1);//อ่านข้อมูลใน sharePef จะได้ค่า value มา
+//              Log.i("MySetting",String.valueOf(user_id));
+
+                    Toast.makeText(SetAlarm.this, "คุณเลือกเย่า\t"+uSelected+ "\tครั้ง", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                }
+            });
+            numDlg.setNegativeButton(R.string.dlgCancel,null);
+            numDlg.create();
+            numDlg.show();
+        }else {
+            Toast.makeText(getApplicationContext(), "คุณไม่ได้ตั้งค่าวิธีปิดเป็นแบบเขย่า", Toast.LENGTH_SHORT).show();
+        }
+
+    }
 
     @Override
     protected void onPause() {

@@ -28,19 +28,6 @@
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"/>
 
-        <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
-            android:id="@+id/progess_1"
-            android:layout_width="290dp"
-            app:rcBackgroundPadding="5dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginStart="16dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_height="43dp"
-            android:layout_marginBottom="16dp"
-            />
-
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,10 +41,10 @@
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginEnd="16dp"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintHorizontal_bias="0.17"
-            app:layout_constraintBottom_toTopOf="@+id/textClock"
+            app:layout_constraintHorizontal_bias="0.33"
+            app:layout_constraintBottom_toTopOf="@+id/progess_1"
             android:layout_marginBottom="8dp"
-            app:layout_constraintVertical_bias="0.38" />
+            app:layout_constraintVertical_bias="0.19" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -65,8 +52,15 @@
             app:srcCompat="@drawable/ic_cloud"
             android:id="@+id/imageView7"
             tools:ignore="ContentDescription"
-            tools:layout_editor_absoluteY="40dp"
-            tools:layout_editor_absoluteX="189dp" />
+            android:layout_marginEnd="16dp"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginStart="16dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintHorizontal_bias="0.81"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/shakeIt"
+            app:layout_constraintVertical_bias="0.24000001" />
 
         <TextClock
             android:layout_width="wrap_content"
@@ -83,6 +77,30 @@
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             app:layout_constraintVertical_bias="0.8" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/num"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/progess_1"
+            android:layout_marginBottom="120dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/textClock" />
+
+        <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+            android:id="@+id/progess_1"
+            android:layout_width="290dp"
+            app:rcBackgroundPadding="5dp"
+            android:layout_height="43dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="48dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp" />
 
 
     </android.support.constraint.ConstraintLayout>

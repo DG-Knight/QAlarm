@@ -14,41 +14,14 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
 
         <ListView
             android:id="@+id/listView_set"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="false"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true">
-
-        <!--<Button-->
-            <!--android:text="@string/btnCancel"-->
-            <!--android:onClick="btnstop"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:id="@+id/btnCancel"-->
-            <!--tools:ignore="ButtonStyle" />-->
-
-        <!--<Button-->
-            <!--android:text="@string/btnStart"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:id="@+id/btnStart"-->
-            <!--android:layout_weight="1"-->
-            <!--tools:ignore="ButtonStyle" />-->
-
-
 
     </LinearLayout>
 

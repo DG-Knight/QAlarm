@@ -29,6 +29,7 @@
     <string name="quest2">ภาพใดบ้างเป็นภาพรถ ?</string>
     <string name="quest3">ภาพใดบ้างเป็นภาภบ้าน ?</string>
     <string name="app_intro_skip">skip</string>
+    <string name="dlgChooseNumShake">เลือกจำนวนครั้งการเขย่า</string>
 
 
 </resources>

@@ -27,7 +27,7 @@ public class ListSetAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return strTitle.length;
     }
 
     @Override
@@ -46,7 +46,6 @@ public class ListSetAdapter extends BaseAdapter {
 
         if (convertView==null){
             convertView = mInflater.inflate(R.layout.list_menu_set_alarm,parent,false);
-
 
             TextView textTitle = (TextView)convertView.findViewById(R.id.textTitle);
             textTitle.setText(strTitle[position]);

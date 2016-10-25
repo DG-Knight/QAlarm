@@ -164,7 +164,6 @@ public class MainActivity extends AppCompatActivity {
         }else if (id == R.id.action_history){
             Intent i = new Intent(getApplicationContext(),History.class);
             startActivity(i);
-        }else{
         }
 
         return super.onOptionsItemSelected(item);
