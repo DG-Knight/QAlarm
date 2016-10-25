@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.ict.dg_knight.qalarm">
+
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".SetAlarm"
+            android:label="@string/setAlarm"
+            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".ShowEvent"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"/>
+
+        <receiver
+            android:name=".AlarmReceiver"
+            android:process=":remote"/>
+
+        <activity
+            android:name=".About"
+            android:label="@string/action_about"
+            android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".History"
+            android:label="@string/ation_history"
+            android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".SendToEmail"
+            android:parentActivityName=".About"/>
+        <activity
+            android:name=".MyIntro"
+            android:theme="@style/FullscreenTheme" />
+
+    </application>
+
+</manifest>

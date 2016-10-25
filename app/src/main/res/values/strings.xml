@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">Q Alarm</string>
+
+    <string name="action_settings">ตั้งค่า</string>
+    <string name="setAlarm">ตั้งปลุก</string>
+    <string name="btnStart">เริ่ม</string>
+    <string name="btnCancel">ยกเลิก</string>
+    <string name="ation_history">ประวัติการนอน</string>
+    <string name="action_about">เกี่ยวกับ</string>
+    <string name="stop">Stop</string>
+    <string name="page_about">About</string>
+    <string name="email_owner">darkeye_whan@hotmail.com</string>
+    <string name="title_version">เวอร์ชัน</string>
+    <string name="title_dev">ผู้พัฒนา</string>
+    <string name="title_contact">ติดต่อผู้พัฒนา</string>
+    <string name="apiwatdindang">อภิวัฒน์ ดินแดง</string>
+    <string name="method_alarm">วิธีปิดเสียงนาฬิกาปลุก</string>
+    <string name="mt_picture">พิสูจน์ด้วยภาพ</string>
+    <string name="mt_sharke">เขย่า</string>
+    <string name="mt_playGame">เล่นเกม</string>
+    <string name="dlgCancel">ยกเลิก</string>
+    <string name="dlgOk">ตกลง</string>
+    <string name="basic">พื้นฐาน</string>
+    <string name="shakeit">Shake !</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="quest1">ภาพใดบ้างเป็นภาพสัตว์ ?</string>
+    <string name="quest2">ภาพใดบ้างเป็นภาพรถ ?</string>
+    <string name="quest3">ภาพใดบ้างเป็นภาภบ้าน ?</string>
+    <string name="app_intro_skip">skip</string>
+
+
+</resources>
