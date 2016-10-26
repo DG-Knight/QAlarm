@@ -41,10 +41,10 @@
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginEnd="16dp"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintHorizontal_bias="0.33"
+            app:layout_constraintHorizontal_bias="0.14"
             app:layout_constraintBottom_toTopOf="@+id/progess_1"
             android:layout_marginBottom="8dp"
-            app:layout_constraintVertical_bias="0.19" />
+            app:layout_constraintVertical_bias="0.100000024" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -56,11 +56,11 @@
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginStart="16dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintHorizontal_bias="0.81"
+            app:layout_constraintHorizontal_bias="0.84"
             android:layout_marginTop="16dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="@+id/shakeIt"
-            app:layout_constraintVertical_bias="0.24000001" />
+            app:layout_constraintVertical_bias="0.13" />
 
         <TextClock
             android:layout_width="wrap_content"
@@ -71,7 +71,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/shakeIt"
-            android:layout_marginBottom="104dp"
+            android:layout_marginBottom="32dp"
             android:layout_marginTop="16dp"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginEnd="16dp"

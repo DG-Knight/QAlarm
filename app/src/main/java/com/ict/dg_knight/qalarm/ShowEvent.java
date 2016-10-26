@@ -28,8 +28,8 @@ public class ShowEvent extends AppCompatActivity  {
     SharedPreferences sharedPref;
     SharedPreferences.Editor editor;
     public static final String MY_PREFS = "my_prefs";
+    public static final String MY_VIBRATE ="my_vibrate";
     Vibrator vibrator;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +45,8 @@ public class ShowEvent extends AppCompatActivity  {
         kl.disableKeyguard();
 
         setContentView(R.layout.activity_show_event);
-         vibrator  = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        //----------------------------Button----------------
+        vibrator  = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);// get Vibrate การสั่น
+
         sharedPref = getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE);
         final int a;
          a = sharedPref.getInt("selected",-1);//get วิทีเลือกนาฬิกาจาก sharedPref
@@ -59,7 +59,6 @@ public class ShowEvent extends AppCompatActivity  {
             transaction.replace(R.id.fragment_container, eventFragment);
             transaction.commit();
             clearPreFer();
-            //                vibrator.vibrate(1000);//สั่น 1 วินาที
         }else if (a == 1){
             // close type random image
             ShowEventRandomImageFragment randomImageFragment = new ShowEventRandomImageFragment();
@@ -77,10 +76,27 @@ public class ShowEvent extends AppCompatActivity  {
             transaction.replace(R.id.fragment_container, shakeFragment);
             transaction.commit();
             clearPreFer();
-            //                vibrator.vibrate(1000);//สั่น 1 วินาที
         }
-        long[] pattern = { 0, 200 , 500 , 200 }; //0 คือ เริ่มสั่นทันที 200 คือ สั่น 200 milliseconds 500 คือ หยุดสั่น 500 milliseconds 200 คือ สั่น 200 milliseconds
-        vibrator.vibrate(pattern,0);//สั่งให้สั่นจนกว่าจะกดหยุด
+        sharedPref = getSharedPreferences(MY_VIBRATE, Context.MODE_PRIVATE);
+        final int v;
+        v = sharedPref.getInt("vibrate",-1);//get วิทีเลือกนาฬิกาจาก sharedPref
+        Log.v("sharePrefVibrate",String.valueOf(v));
+        if (v !=1 ){
+            long[] pattern = { 0, 200 , 500 , 200 }; //0 คือ เริ่มสั่นทันที 200 คือ สั่น 200 milliseconds 500 คือ หยุดสั่น 500 milliseconds 200 คือ สั่น 200 milliseconds
+            vibrator.vibrate(pattern,0);//สั่งให้สั่นจนกว่าจะกดหยุด
+            Log.i("Vibrater Status","on");
+        }else if (v==1){
+            Log.i("Vibrater Status","off");
+        }
+        Uri notif = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+        if (notif == null){
+            notif = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+            if (notif==null){
+                notif= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            }
+        }
+        r = RingtoneManager.getRingtone(getApplicationContext(),notif);
+        r.play();
     }
     private void clearPreFer(){
         sharedPref = getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE);
@@ -93,15 +109,7 @@ public class ShowEvent extends AppCompatActivity  {
         super.onResume();
 
         wl.acquire();
-        Uri notif = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
-        if (notif == null){
-            notif = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-            if (notif==null){
-                notif= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            }
-        }
-        r = RingtoneManager.getRingtone(getApplicationContext(),notif);
-        r.play();
+
     }
     @Override
     protected void onPause() {

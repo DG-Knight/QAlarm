@@ -30,6 +30,9 @@
     <string name="quest3">ภาพใดบ้างเป็นภาภบ้าน ?</string>
     <string name="app_intro_skip">skip</string>
     <string name="dlgChooseNumShake">เลือกจำนวนครั้งการเขย่า</string>
+    <string name="set_vibrate">ตั้งค่าการสั่น</string>
+    <string name="vibrate_on">เปิด</string>
+    <string name="vibrate_close">ปิด</string>
 
 
 </resources>

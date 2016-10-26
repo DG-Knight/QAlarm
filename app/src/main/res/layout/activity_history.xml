@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_history"
     android:layout_width="match_parent"
@@ -9,15 +9,16 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="#FFFFFF"
-    tools:context="com.ict.dg_knight.qalarm.History">
+
+    tools:context="com.ict.dg_knight.qalarm.History"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="280dp"
-        tools:ignore="UnknownId,UselessLeaf"
+        tools:ignore="ObsoleteLayoutParam,UnknownId,UselessLeaf"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
+        android:layout_height="300dp">
 
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/chart"
@@ -27,11 +28,12 @@
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        tools:ignore="ObsoleteLayoutParam">
 
         <ListView
             android:id="@+id/listhistory"
@@ -39,4 +41,4 @@
             android:layout_height="match_parent" />
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>
