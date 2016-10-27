@@ -74,7 +74,6 @@ public class ShowEventShakeFragment extends Fragment {
             @Override
             public void onShake(int count) {
                 SharedPreferences sharedPref;
-                SharedPreferences.Editor editor;
                 sharedPref =getActivity().getSharedPreferences("numShake",Context.MODE_PRIVATE);
                 int num1 = 20,num2 = 25,num3 = 30,num4 = 35,num5= 40;
                 final int a;

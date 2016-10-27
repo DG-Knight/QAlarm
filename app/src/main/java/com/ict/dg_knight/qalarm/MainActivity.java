@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
     String dayOfMount;
 
     public boolean isFirstStart;
-    Context mcontext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,13 +53,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked==true){
-                    checkBox.setText("เปิด");
-
-                    Toast.makeText(MainActivity.this, "เปิด", Toast.LENGTH_SHORT).show();
-                }else{
                     checkBox.setText("ปิด");
                     Toast.makeText(MainActivity.this, "ปิด", Toast.LENGTH_SHORT).show();
                     cancelAlarm();
+                }else{
+                    checkBox.setText("เปิด");
+                    Toast.makeText(MainActivity.this, "เปิด", Toast.LENGTH_SHORT).show();
 
                 }
 
