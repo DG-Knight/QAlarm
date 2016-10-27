@@ -41,7 +41,7 @@ public class ShowEvent extends AppCompatActivity  {
         km = (KeyguardManager)getSystemService(Context.KEYGUARD_SERVICE);
         kl = km.newKeyguardLock("ShowEvent");
         wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK|PowerManager.ACQUIRE_CAUSES_WAKEUP|PowerManager.ON_AFTER_RELEASE,"ShowEvent");
-        wl.acquire();
+        wl.acquire();//รับค่า WakeLock
         kl.disableKeyguard();
 
         setContentView(R.layout.activity_show_event);

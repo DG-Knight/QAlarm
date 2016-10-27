@@ -10,9 +10,9 @@ import android.hardware.SensorManager;
  */
 
 public class ShakeDetector implements SensorEventListener {
-    private static final float SHAKE_THRESHOLD_GRAVITY = 2.7F;
-    private static final int SHAKE_SLOP_TIME_MS = 500;
-    private static final int SHAKE_COUNT_RESET_TIME_MS = 3000;
+    private static final float SHAKE_THRESHOLD_GRAVITY = 2.7F; //การเริ่มต้น
+    private static final int SHAKE_SLOP_TIME_MS = 500; //ค่าความลาดเอียง
+    private static final int SHAKE_COUNT_RESET_TIME_MS = 3000; //รีเซ็ตเมื่อหยุด 3 วินาที
 
     private OnShakeListener mListener;
     private long mShakeTimestamp;
@@ -30,7 +30,7 @@ public class ShakeDetector implements SensorEventListener {
     public void onSensorChanged(SensorEvent event) {
 
         if (mListener != null) {
-            float x = event.values[0];
+            float x = event.values[0]; // ค่าจาก Sensor event
             float y = event.values[1];
             float z = event.values[2];
 
@@ -38,17 +38,18 @@ public class ShakeDetector implements SensorEventListener {
             float gY = y / SensorManager.GRAVITY_EARTH;
             float gZ = z / SensorManager.GRAVITY_EARTH;
 
-            // gForce will be close to 1 when there is no movement.
-            float gForce = (float)Math.sqrt( gX * gX + gY * gY + gZ * gZ );
+            // gForce จะกลับไปเริ่ม 1 ใหม่
+            float gForce = (float)Math.sqrt( gX * gX + gY * gY + gZ * gZ );//ฟังก์ชันหาค่ารากที่ 2 ใช้หาค่ารากที่สอง
 
             if (gForce > SHAKE_THRESHOLD_GRAVITY) {
                 final long now = System.currentTimeMillis();
-                // ignore shake events too close to each other (500ms)
+
+                //ไม่สนใจ event หรือค่าความเอียงของโทรศัพท์ที่สั้นเกินเกิน(500ms)
                 if (mShakeTimestamp + SHAKE_SLOP_TIME_MS > now) {
                     return;
                 }
 
-                // reset the shake count after 3 seconds of no shakes
+                // reset การเขย่าหลังจากไม่เข่าไป 3 วิ
                 if (mShakeTimestamp + SHAKE_COUNT_RESET_TIME_MS < now) {
                     mShakeCount = 0;
                 }
@@ -62,6 +63,6 @@ public class ShakeDetector implements SensorEventListener {
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
+        //ใช้ตรวจสอบ ความถูกต้อง ไม่ใช้งาน
     }
 }

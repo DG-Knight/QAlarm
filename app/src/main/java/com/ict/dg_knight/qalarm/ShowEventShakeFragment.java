@@ -28,9 +28,11 @@ import java.util.Calendar;
 import java.util.Date;
 
 import static com.ict.dg_knight.qalarm.DbHelper.TABLE_LAST;
+import static com.ict.dg_knight.qalarm.DbHelper.TABLE_TOTAL;
 import static com.ict.dg_knight.qalarm.DbHelper.TIME_HOUR_L;
 import static com.ict.dg_knight.qalarm.DbHelper.TIME_LAST_DAY;
 import static com.ict.dg_knight.qalarm.DbHelper.TIME_MINUTE_L;
+import static com.ict.dg_knight.qalarm.DbHelper.TOTAL_TIME;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -48,6 +50,8 @@ public class ShowEventShakeFragment extends Fragment {
     public static final Calendar cal = Calendar.getInstance();
     int closeHour = cal.get(Calendar.HOUR_OF_DAY);//รับค่าช่วยโมงปัจจุบัน
     int closeMinute = cal.get(Calendar.MINUTE);//รับค่านาทีปัจจุบัน
+    int dHour;
+    int dMinute;
 
     public ShowEventShakeFragment() {
         // Required empty public constructor
@@ -144,6 +148,7 @@ public class ShowEventShakeFragment extends Fragment {
                       Toast.makeText(getActivity(), "เสร็จสิ้นภารกิจ", Toast.LENGTH_SHORT).show();
                       cancelAlarm();
                       saveTime();
+                      getDateTime();
                       getActivity().finish();//ปิด fragment พร้อม actitvity
                   }
                   else {
@@ -183,26 +188,64 @@ public class ShowEventShakeFragment extends Fragment {
         Log.i("Insert Data: ",String.valueOf(mDb));
         closeDb();// เรียกใช้ฟังก์ชันปิดฐานข้อมูล
     }
-    private void calTime(){
-        int dHour;
-        int dMinute;
+    private void getDateTime(){
+
         openDb();//เปิดฐานข้อมูล
         mCursor = mDb.rawQuery("SELECT * FROM "
-                                       + DbHelper.TABLE_TODAY, null);//เลือกคิวรี่ข้อมูลจากตาราง TABLE_TODAY
+                + DbHelper.TABLE_TODAY, null);//เลือกคิวรี่ข้อมูลจากตาราง TABLE_TODAY
         if (mCursor.isBeforeFirst()){
             mCursor.moveToLast();
             dHour = mCursor.getInt(mCursor.getColumnIndex(DbHelper.TIME_HOUR));//ดึงข้อมูลในแถวสุดท้าย คอลัมที่มีชื่อว่า TIME_HOUR
             dMinute = mCursor.getInt(mCursor.getColumnIndex(DbHelper.TIME_MINUTE));//ดึงข้อมูลในแถวสุดท้าย คอลัมที่มีชื่อว่า TIME_MINUTE
-            Log.i("GetHour", String.valueOf(dHour));
-            Log.i("GetMinute",String.valueOf(dMinute));
-
+            calTime();
         }else {
             mCursor.moveToLast();
             dHour = mCursor.getInt(mCursor.getColumnIndex(DbHelper.TIME_HOUR));//ดึงข้อมูลในแถวสุดท้าย คอลัมที่มีชื่อว่า TIME_HOUR
             dMinute = mCursor.getInt(mCursor.getColumnIndex(DbHelper.TIME_MINUTE));//ดึงข้อมูลในแถวสุดท้าย คอลัมที่มีชื่อว่า TIME_MINUTE
-            Log.i("GetHour", String.valueOf(dHour));
-            Log.i("GetMinute",String.valueOf(dMinute));
+            calTime();
         }
+        closeDb();
+    }
+    private void calTime(){
+        openDb();
+        int sumHour;
+        int sumMinute;
+        String strI;
+
+        if (dHour<=closeHour&&dMinute<=closeMinute){
+
+            Log.d("ลบเวลาเข้า Case","1");
+            Log.d("เวลาปิดนาฬิกา",String.valueOf(closeHour)+""+String.valueOf(closeMinute));
+            sumHour = closeHour - dHour;
+            sumMinute = closeMinute - dMinute;
+            strI = String.valueOf(sumHour)+"."+String.valueOf(sumMinute);
+            Log.i("sumHour",strI);
+            insertCalTime(strI);
+
+        }else if (dHour<=closeHour&&dMinute>closeMinute){
+            Log.i("Case","2");
+            sumHour = closeHour - dHour ;
+            sumMinute = (closeMinute+60)- dMinute ;
+            strI = String.valueOf(sumHour)+"."+String.valueOf(sumMinute);
+            Log.i("sumHour",strI);
+            insertCalTime(strI);
+        }else if (dHour>=closeHour&&dMinute>closeMinute){
+            Log.i("Case","3");
+            sumHour = (closeHour-1)+24-dHour;
+            sumMinute = (closeHour+60)-dMinute;
+            strI = String.valueOf(sumHour)+"."+String.valueOf(sumMinute);
+            Log.i("sumHour",strI);
+            insertCalTime(strI);
+        }
+    }
+    private void insertCalTime(String cal){
+        Log.d("insertCalTime: ", String.valueOf(cal));
+        ContentValues v = new ContentValues();
+        if (cal!=null){
+            v.put(TOTAL_TIME,cal);
+            mDb.insert(TABLE_TOTAL,null,v);
+        }
+
     }
     private void openDb(){
         mHelper = new DbHelper(getActivity());

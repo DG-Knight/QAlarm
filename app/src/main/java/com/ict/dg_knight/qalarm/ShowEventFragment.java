@@ -24,7 +24,7 @@ import java.util.Date;
 
 import static com.ict.dg_knight.qalarm.DbHelper.TABLE_LAST;
 import static com.ict.dg_knight.qalarm.DbHelper.TABLE_TODAY;
-//import static com.ict.dg_knight.qalarm.DbHelper.TABLE_TOTAL;
+import static com.ict.dg_knight.qalarm.DbHelper.TABLE_TOTAL;
 import static com.ict.dg_knight.qalarm.DbHelper.TIME_HOUR_L;
 import static com.ict.dg_knight.qalarm.DbHelper.TIME_LAST_DAY;
 import static com.ict.dg_knight.qalarm.DbHelper.TIME_MINUTE_L;
@@ -38,9 +38,9 @@ public class ShowEventFragment extends Fragment {
 
     private Button btnStop;
     final static int RQS_1 = 1;
-    DbHelper mHelper;
-    SQLiteDatabase mDb;
-    Cursor mCursor;
+    private DbHelper mHelper;
+    private SQLiteDatabase mDb;
+    private Cursor mCursor;
     public static final Calendar cal = Calendar.getInstance();
     int closeHour = cal.get(Calendar.HOUR_OF_DAY);//รับค่าช่วยโมงปัจจุบัน
     int closeMinute = cal.get(Calendar.MINUTE);//รับค่านาทีปัจจุบัน
@@ -99,7 +99,6 @@ public class ShowEventFragment extends Fragment {
     }
     private void getDatTime(){
 
-        int sum ;
         openDb();//เปิดฐานข้อมูล
         mCursor = mDb.rawQuery("SELECT * FROM "
                                        + DbHelper.TABLE_TODAY, null);//เลือกคิวรี่ข้อมูลจากตาราง TABLE_TODAY
@@ -125,27 +124,41 @@ public class ShowEventFragment extends Fragment {
         int sumHour;
         int sumMinute;
         String strI;
-        if (dHour<=closeHour&&dHour<=closeMinute){
-//                mCursor.moveToLast();
-//                int posiont = mCursor.getPosition();
-//                Log.d("Position",String.valueOf(mCursor.getPosition()));
 
-            Log.d("Case","1");
+        if (dHour<=closeHour&&dMinute<=closeMinute){
+
+            Log.d("ลบเวลาเข้า Case","1");
             Log.d("เวลาปิดนาฬิกา",String.valueOf(closeHour)+""+String.valueOf(closeMinute));
-            sumHour = closeHour-dHour;
-            sumMinute = closeMinute-dMinute;
+            sumHour = closeHour - dHour;
+            sumMinute = closeMinute - dMinute;
             strI = String.valueOf(sumHour)+"."+String.valueOf(sumMinute);
             Log.i("sumHour",strI);
-
-//            ContentValues v = new ContentValues();
-//            v.put(DbHelper.TOTAL_TIME,strI);
-//            mDb.update(DbHelper.TABLE_TODAY,v,DbHelper.TOTAL_TIME+"id=?",new String[]{""});
+            insertCalTime(strI);
 
         }else if (dHour<=closeHour&&dMinute>closeMinute){
             Log.i("Case","2");
-        }else{
+            sumHour = closeHour - dHour ;
+            sumMinute = (closeMinute+60)- dMinute ;
+            strI = String.valueOf(sumHour)+"."+String.valueOf(sumMinute);
+            Log.i("sumHour",strI);
+            insertCalTime(strI);
+        }else if (dHour>=closeHour&&dMinute>closeMinute){
             Log.i("Case","3");
+            sumHour = (closeHour-1)+24-dHour;
+            sumMinute = (closeHour+60)-dMinute;
+            strI = String.valueOf(sumHour)+"."+String.valueOf(sumMinute);
+            Log.i("sumHour",strI);
+            insertCalTime(strI);
         }
+    }
+    private void insertCalTime(String cal){
+        Log.d("insertCalTime: ", String.valueOf(cal));
+        ContentValues v = new ContentValues();
+        if (cal!=null){
+            v.put(TOTAL_TIME,cal);
+            mDb.insert(TABLE_TOTAL,null,v);
+        }
+
     }
     private void openDb(){
         mHelper = new DbHelper(getActivity());

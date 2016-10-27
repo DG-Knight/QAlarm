@@ -177,13 +177,13 @@ public class SetAlarm extends AppCompatActivity {
     public void startRingTonePicker(){
         Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
         startActivityForResult(intent, RQS_RINGTONEPICKER);
-        Uri uri = intent.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
-        Ringtone ringtone = RingtoneManager.getRingtone(this, uri);
-        String title = ringtone.getTitle(this);
-
-//http://stackoverflow.com/questions/19187834/how-to-get-ringtone-name-in-android
-//       Toast.makeText(this,"Ring Tone Name"+ title, Toast.LENGTH_SHORT).show();
-        Log.i("Ring Tone Name",title);
+//        Uri uri = intent.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
+//        Ringtone ringtone = RingtoneManager.getRingtone(this, uri);
+//        String title = ringtone.getTitle(this);
+//
+////http://stackoverflow.com/questions/19187834/how-to-get-ringtone-name-in-android
+////       Toast.makeText(this,"Ring Tone Name"+ title, Toast.LENGTH_SHORT).show();
+//        Log.i("Ring Tone Name",title);
     }
     private void setCloseAlarm(){
 
@@ -194,7 +194,7 @@ public class SetAlarm extends AppCompatActivity {
         builder.setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-//                            Log.i("Choose",String.valueOf(which));
+//              Log.i("Choose",String.valueOf(which));
                 mSelected1 = which;//what Choose items
                 mSelected = items[which];
             }

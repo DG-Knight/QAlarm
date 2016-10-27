@@ -3,8 +3,11 @@ package com.ict.dg_knight.qalarm;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -16,14 +19,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Calendar;
 import java.util.Random;
 
+import static com.ict.dg_knight.qalarm.DbHelper.TABLE_TOTAL;
+import static com.ict.dg_knight.qalarm.DbHelper.TOTAL_TIME;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ShowEventRandomImageFragment extends Fragment {
-    private  ImageView img1;
+    private ImageView img1;
     private ImageView img2;
     private ImageView img3;
     private ImageView img4;
@@ -40,6 +46,17 @@ public class ShowEventRandomImageFragment extends Fragment {
 
     private Button btnRanOk;
     private Button btnRefresh;
+
+    public static final Calendar cal = Calendar.getInstance();
+    int closeHour = cal.get(Calendar.HOUR_OF_DAY);//รับค่าช่วยโมงปัจจุบัน
+    int closeMinute = cal.get(Calendar.MINUTE);//รับค่านาทีปัจจุบัน
+    public static int dHour;
+    public static int dMinute;
+
+    private DbHelper mHelper;
+    private SQLiteDatabase mDb;
+    private Cursor mCursor;
+
     final static int RQS_1 = 1;
     int n ;//เก็บตำแหน่งของรูปภาพที่สุ่มได้
     int q ;// เก็บตำแหน่งของคำถาม
@@ -103,6 +120,7 @@ public class ShowEventRandomImageFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 cancelAlarm();
+                getDatTime();
                 getActivity().finish();
             }
         });
@@ -141,18 +159,28 @@ public class ShowEventRandomImageFragment extends Fragment {
                         Log.i("img1","is click");
                         if (q==1){
                             if (n==1|n==2|n==3){
-
                                 Log.i("Image",String.valueOf(n));
                                 Toast.makeText(getActivity(),ANIMAIL, Toast.LENGTH_SHORT).show();
                             }
+                        }else if (q==2) {
+                            if (n == 4 | n == 5 | n == 6) {
+                                Log.i("CAR", String.valueOf(n));
+                                Toast.makeText(getActivity(), CAR, Toast.LENGTH_SHORT).show();
+                            }
+                        }else if (q==3){
+                            if (n==7|n==8|n==9){
+                                Log.i("HOME", String.valueOf(n));
+                                Toast.makeText(getActivity(), HOME, Toast.LENGTH_SHORT).show();
+                            }
                         }
+
                     }
                 });
 
             } else if (i==1){
                 n= r.nextInt(img_ran2.length);
                 Log.e("Random2:",String.valueOf(n));
-                img2.setImageResource(img_ran2[n]);
+                img2.setImageResource(img_ran2[n]);//ภาาชุดที่สอง
             }else if (i==2){
                 n= r.nextInt(img_ran1.length);
                 Log.e("Random3:",String.valueOf(n));
@@ -182,6 +210,78 @@ public class ShowEventRandomImageFragment extends Fragment {
                 Log.e("Random9:",String.valueOf(n));
                 img9.setImageResource(img_ran1[n]);
             }
+        }
+    }
+    private void getDatTime(){
+
+        openDb();//เปิดฐานข้อมูล
+        mCursor = mDb.rawQuery("SELECT * FROM "
+                + DbHelper.TABLE_TODAY, null);//เลือกคิวรี่ข้อมูลจากตาราง TABLE_TODAY
+        if (mCursor.isBeforeFirst()){
+            mCursor.moveToLast();
+            dHour = mCursor.getInt(mCursor.getColumnIndex(DbHelper.TIME_HOUR));//ดึงข้อมูลในแถวสุดท้าย คอลัมที่มีชื่อว่า TIME_HOUR
+            dMinute = mCursor.getInt(mCursor.getColumnIndex(DbHelper.TIME_MINUTE));//ดึงข้อมูลในแถวสุดท้าย คอลัมที่มีชื่อว่า TIME_MINUTE
+//            Log.i("GetHour", String.valueOf(dHour));
+//            Log.i("GetMinute",String.valueOf(dMinute));
+            calTime();
+        }else {
+            mCursor.moveToLast();
+            dHour = mCursor.getInt(mCursor.getColumnIndex(DbHelper.TIME_HOUR));//ดึงข้อมูลในแถวสุดท้าย คอลัมที่มีชื่อว่า TIME_HOUR
+            dMinute = mCursor.getInt(mCursor.getColumnIndex(DbHelper.TIME_MINUTE));//ดึงข้อมูลในแถวสุดท้าย คอลัมที่มีชื่อว่า TIME_MINUTE
+//            Log.i("GetHour", String.valueOf(dHour));
+//            Log.i("GetMinute",String.valueOf(dMinute));
+            calTime();
+        }
+        closeDb();
+    }
+    private void calTime(){
+        openDb();
+        int sumHour;
+        int sumMinute;
+        String strI;
+
+        if (dHour<=closeHour&&dMinute<=closeMinute){
+
+            Log.d("ลบเวลาเข้า Case","1");
+            Log.d("เวลาปิดนาฬิกา",String.valueOf(closeHour)+""+String.valueOf(closeMinute));
+            sumHour = closeHour - dHour;
+            sumMinute = closeMinute - dMinute;
+            strI = String.valueOf(sumHour)+"."+String.valueOf(sumMinute);
+            Log.i("sumHour",strI);
+            insertCalTime(strI);
+
+        }else if (dHour<=closeHour&&dMinute>closeMinute){
+            Log.i("Case","2");
+            sumHour = closeHour - dHour ;
+            sumMinute = (closeMinute+60)- dMinute ;
+            strI = String.valueOf(sumHour)+"."+String.valueOf(sumMinute);
+            Log.i("sumHour",strI);
+            insertCalTime(strI);
+        }else if (dHour>=closeHour&&dMinute>closeMinute){
+            Log.i("Case","3");
+            sumHour = (closeHour-1)+24-dHour;
+            sumMinute = (closeHour+60)-dMinute;
+            strI = String.valueOf(sumHour)+"."+String.valueOf(sumMinute);
+            Log.i("sumHour",strI);
+            insertCalTime(strI);
+        }
+    }
+    private void insertCalTime(String cal){
+        Log.d("insertCalTime: ", String.valueOf(cal));
+        ContentValues v = new ContentValues();
+        if (cal!=null){
+            v.put(TOTAL_TIME,cal);
+            mDb.insert(TABLE_TOTAL,null,v);
+        }
+    }
+    private void openDb(){
+        mHelper = new DbHelper(getActivity());
+        mDb = mHelper.getWritableDatabase();
+    }
+    private void closeDb(){
+        if (mDb!=null){
+            mHelper.close();
+            mDb.close();
         }
     }
 }

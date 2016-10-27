@@ -20,7 +20,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String TIME_HOUR = "hour_t";
     public static final String TIME_MINUTE = "minute_t";
 
-//    public static final String TABLE_TOTAL = "tb_total";
+    public static final String TABLE_TOTAL = "tb_total";
     public static final String TOTAL_TIME = "total_time";//หาที่ลงยังไม่ได้
 
     public static final String TABLE_LAST = "tb_last_awake";
@@ -40,8 +40,7 @@ public class DbHelper extends SQLiteOpenHelper {
                            + WEEK_DAY + " TEXT, "
                            + TIME_DAY + " TEXT, "
                            + TIME_HOUR + " INTEGER, "
-                           + TIME_MINUTE + " INTEGER,"
-                            + TOTAL_TIME + " TEXT);");
+                           + TIME_MINUTE + " INTEGER);");
 
         Log.i(TAG, "Create Table tb_today Successfully.");
 
@@ -50,8 +49,8 @@ public class DbHelper extends SQLiteOpenHelper {
                            + TIME_HOUR_L   + " INTEGER,"
                            + TIME_MINUTE_L + " INTEGER);");
 
-//        db.execSQL("CREATE TABLE " + TABLE_TOTAL +" (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-//                + TOTAL_TIME + " TEXT);");
+        db.execSQL("CREATE TABLE " + TABLE_TOTAL +" (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + TOTAL_TIME + " TEXT);");
 //        Log.i(TAG, "Create Table tb_last Successfully.");
 //        db.execSQL("INSERT INTO " + TABLE_NAME + " (" + TIME_DAY + ", " + TIME_HOUR
 //                + ", " + TIME_MINUS + ") VALUES ('2016:09:26',10, 20);");
@@ -60,7 +59,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TODAY);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_LAST);
-//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_TOTAL);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_TOTAL);
         onCreate(db);
     }
 }

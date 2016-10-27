@@ -1,5 +1,7 @@
 package com.ict.dg_knight.qalarm;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,7 +19,11 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 //    public final Calendar cal = Calendar.getInstance();
     private TextView textShow;
     private Button btn_showSetTime;
+    final static int RQS_1 = 1;
     SharedPreferences sharedPref;
     SQLiteDatabase mDb;
     DbHelper mHelper;
@@ -42,7 +49,23 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        final CheckBox checkBox = (CheckBox)findViewById(R.id.closeAlarm);
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked==true){
+                    checkBox.setText("เปิด");
 
+                    Toast.makeText(MainActivity.this, "เปิด", Toast.LENGTH_SHORT).show();
+                }else{
+                    checkBox.setText("ปิด");
+                    Toast.makeText(MainActivity.this, "ปิด", Toast.LENGTH_SHORT).show();
+                    cancelAlarm();
+
+                }
+
+            }
+        });
         btn_showSetTime = (Button)findViewById(R.id.btn_setTime);
         textShow=(TextView) findViewById(R.id.txtShow);
 
@@ -93,7 +116,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(),SetAlarm.class);
                 startActivity(intent);
-
             }
         });
 
@@ -167,6 +189,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    private void cancelAlarm(){
+        Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), RQS_1, intent, 0);
+        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        alarmManager.cancel(pendingIntent);
     }
     public void onPause() {
         super.onPause();

@@ -33,5 +33,13 @@
         android:layout_centerHorizontal="true"
         android:textSize="18sp" />
 
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/closeAlarm"
+        tools:text="close_alarm"
+        android:layout_below="@+id/txtShow"
+        android:layout_centerHorizontal="true" />
+
 
 </RelativeLayout>
