@@ -74,7 +74,7 @@ public class ShowEventFragment extends Fragment {
 
         return rootView;
     }
-    private void cancelAlarm(){
+    public void cancelAlarm(){
         Intent intent = new Intent(getContext(), AlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), RQS_1, intent, 0);
         AlarmManager alarmManager = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);

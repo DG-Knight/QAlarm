@@ -64,16 +64,12 @@ public class SetAlarm extends AppCompatActivity {
 
     Ringtone ringtone ;
     final int RQS_RINGTONEPICKER = 1;
-//    private Button btnStart;
-//    private Button btnCancel;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_set_alarm);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         int [] resId ={R.drawable.alarm_clock2,
                         R.drawable.musical_note,
                         R.drawable.method,R.drawable.shake_one,R.drawable.vibration};
@@ -98,8 +94,8 @@ public class SetAlarm extends AppCompatActivity {
 
                 }else if (position == 1){
                     startRingTonePicker();
-                    return;
-//                    Toast.makeText(SetAlarm.this, "ริงโทน", Toast.LENGTH_SHORT).show();
+//                    String title = ringtone.getTitle(getApplicationContext());
+//                    Toast.makeText(getApplicationContext(),"Ring Tone Name"+ title, Toast.LENGTH_SHORT).show();
                 }else if (position == 2){
                     setCloseAlarm();
                 }else if (position == 3){
@@ -177,17 +173,17 @@ public class SetAlarm extends AppCompatActivity {
     public void startRingTonePicker(){
         Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
         startActivityForResult(intent, RQS_RINGTONEPICKER);
-//        Uri uri = intent.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
-//        Ringtone ringtone = RingtoneManager.getRingtone(this, uri);
-//        String title = ringtone.getTitle(this);
-//
+        Uri uri = intent.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
+        ringtone = RingtoneManager.getRingtone(this, uri);
+
+
 ////http://stackoverflow.com/questions/19187834/how-to-get-ringtone-name-in-android
-////       Toast.makeText(this,"Ring Tone Name"+ title, Toast.LENGTH_SHORT).show();
+
 //        Log.i("Ring Tone Name",title);
     }
     private void setCloseAlarm(){
 
-        final String[] items = { getString(R.string.basic),getString(R.string.mt_picture),getString(R.string.mt_sharke),getString(R.string.mt_playGame) };
+        final String[] items = { getString(R.string.basic),getString(R.string.mt_picture),getString(R.string.mt_sharke)};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(SetAlarm.this);
         builder.setTitle(R.string.method_alarm);
@@ -224,7 +220,6 @@ public class SetAlarm extends AppCompatActivity {
         builder.show();
     }
     private void setNumShake(){
-
         sharedPref =getSharedPreferences("my_prefs",Context.MODE_PRIVATE);//ใ้ชเพื่อเช็คว่าปิดด้วยการเขย่าไหม ถ้าปิดจะอนุญาตให้ตั้งค่าจำนวนได้
         final int a;
         a = sharedPref.getInt("selected",-1);//get วิทีเลือกนาฬิกาจาก sharedPref
@@ -306,9 +301,9 @@ public class SetAlarm extends AppCompatActivity {
         }
     }
 }
-//            int day  = cal.get(Calendar.DAY_OF_MONTH);//ตรวจสอบว่าเป็นวันไหนของเดือน เช่น 18
+//            int day  = cal.get(Calendar.);//ตรวจสอบว่าเป็นวันไหนของเดือน เช่น 18
 //            Log.i("Day : ---",String.valueOf(day));
-//            int day = cal.get(Calendar.DAY_OF_YEAR);//ตรวจสอบว่าเป็นวันที่เท่าไรของปีจาก 365วัน เช่น 292 จาก 365 วัน
+//            int day = cal.gDAY_OF_MONTHet(Calendar.DAY_OF_YEAR);//ตรวจสอบว่าเป็นวันที่เท่าไรของปีจาก 365วัน เช่น 292 จาก 365 วัน
 //            Log.i("DAY-----:",String.valueOf(day));
 //            int day  = cal.get(Calendar.DATE);//ตรวจสอบว่าเป็นวันไหนของเดือน เช่น 18 เหมือน DAY_OF_MONTH
 //            Log.i("Day : ---",String.valueOf(day));

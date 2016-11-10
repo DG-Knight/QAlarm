@@ -28,7 +28,6 @@ import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
-//    public final Calendar cal = Calendar.getInstance();
     private TextView textShow;
     private Button btn_showSetTime;
     final static int RQS_1 = 1;
@@ -44,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -59,9 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 }else{
                     checkBox.setText("เปิด");
                     Toast.makeText(MainActivity.this, "เปิด", Toast.LENGTH_SHORT).show();
-
                 }
-
             }
         });
         btn_showSetTime = (Button)findViewById(R.id.btn_setTime);
@@ -112,7 +110,8 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),SetAlarm.class);
+                Intent intent = new Intent(getApplicationContext(),ShowEvent.class);
+//                Intent intent = new Intent(getApplicationContext(),SetAlarm.class);
                 startActivity(intent);
             }
         });
@@ -172,11 +171,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_about) {
             Intent i = new Intent(getApplicationContext(),About.class);
