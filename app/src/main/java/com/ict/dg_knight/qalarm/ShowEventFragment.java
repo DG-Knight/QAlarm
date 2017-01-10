@@ -23,7 +23,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 import static com.ict.dg_knight.qalarm.DbHelper.TABLE_LAST;
-import static com.ict.dg_knight.qalarm.DbHelper.TABLE_TODAY;
 import static com.ict.dg_knight.qalarm.DbHelper.TABLE_TOTAL;
 import static com.ict.dg_knight.qalarm.DbHelper.TIME_HOUR_L;
 import static com.ict.dg_knight.qalarm.DbHelper.TIME_LAST_DAY;

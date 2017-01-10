@@ -3,8 +3,6 @@ package com.ict.dg_knight.qalarm;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.util.Log;
 
 /**
  * Created by DG-Knight on 19/9/2559.

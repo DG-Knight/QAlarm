@@ -18,8 +18,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Random;
 
 /**
@@ -37,10 +35,6 @@ public class ShowEventRandomImageFragment extends Fragment {
             , R.drawable.home1, R.drawable.home2, R.drawable.home3
             , R.drawable.home4, R.drawable.home5, R.drawable.home6
     };
-
-    int[] img_ran2 = {R.drawable.animal4, R.drawable.animal5, R.drawable.animal6
-            , R.drawable.car4, R.drawable.car5, R.drawable.car6
-            , R.drawable.home4, R.drawable.home5, R.drawable.home6};
 
     String[] question = {"ภาพใดบ้างเป็นภาพสัตว์ ?", "ภาพใดบ้างเป็นภาพรถ ?", "ภาพใดบ้างเป็นภาพบ้าน ?"};
 

@@ -3,15 +3,13 @@ package com.ict.dg_knight.qalarm;
 
 import android.app.KeyguardManager;
 import android.content.Context;
-import android.content.Intent;
+
 import android.content.SharedPreferences;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.PowerManager;
 import android.os.Vibrator;
-import android.preference.RingtonePreference;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

@@ -24,7 +24,6 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -70,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         mCursor = mDb.rawQuery("SELECT * FROM " + DbHelper.TABLE_TODAY, null);
 
             if (mCursor.isBeforeFirst()){
-            Log.i("CursorIsBeforeFirst : ", String.valueOf(mCursor.isBeforeFirst()));
+                Log.i("CursorIsBeforeFirst : ", String.valueOf(mCursor.isBeforeFirst()));
                 mCursor.moveToLast();
                 if (!mCursor.isBeforeFirst()){
                     dayOfWeek = mCursor.getString(mCursor.getColumnIndex(DbHelper.WEEK_DAY));
@@ -79,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                 }else {
                     Log.d("mCursor","NUll");
                 }
-        }
+            }
         textShow.setVisibility(View.VISIBLE);
         if (dayOfMount!=null){
             if (dayOfWeek!=null){
@@ -110,8 +109,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),ShowEvent.class);
-//                Intent intent = new Intent(getApplicationContext(),SetAlarm.class);
+                Intent intent = new Intent(getApplicationContext(),SetAlarm.class);
                 startActivity(intent);
             }
         });
@@ -127,7 +125,6 @@ public class MainActivity extends AppCompatActivity {
                 isFirstStart = getSharedPreferences.getBoolean("firstStart", true);
                 //  Check either activity or app is open very first time or not and do action
                 if (isFirstStart) {
-
                     //  Launch application introduction screen
                     Intent i = new Intent(MainActivity.this, MyIntro.class);
                     startActivity(i);
@@ -138,7 +135,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         t.start();
-
     }
 //ถามก่อนออกจากแอป
     public void onBackPressed(){
@@ -180,7 +176,6 @@ public class MainActivity extends AppCompatActivity {
             Intent i = new Intent(getApplicationContext(),History.class);
             startActivity(i);
         }
-
         return super.onOptionsItemSelected(item);
     }
     private void cancelAlarm(){
