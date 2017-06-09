@@ -19,7 +19,7 @@ public class About extends AppCompatActivity {
         String [] strTitle ={getString(R.string.title_version)
                 ,getString(R.string.title_dev)
                 ,getString(R.string.title_contact)};
-        String [] strSub ={"0.01"
+        String [] strSub ={"0.0.01"
                 ,getString(R.string.apiwatdindang)
                 ,"Email : darkeye_whan@hotmail.com"};
 
